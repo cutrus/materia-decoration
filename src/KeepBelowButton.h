@@ -41,19 +41,13 @@ public:
     }
     static void paintIcon(Button *button, QPainter *painter, const QRectF &iconRect, const qreal) {
         Q_UNUSED(iconRect)
-        button->setPenWidth(painter, 1.25);
+        button->setPenWidth(painter, 2);
 
-        const QPointF offset(-5, -5);
-        painter->drawPolyline(  QVector<QPointF> {
-            QPointF( 0.5, 0.25 ) + offset,
-            QPointF( 5.0, 4.75 ) + offset,
-            QPointF( 9.5, 0.25 ) + offset
-        });
-
-        painter->drawPolyline(  QVector<QPointF> {
-            QPointF( 0.5, 5.25 ) + offset,
-            QPointF( 5.0, 9.75 ) + offset,
-            QPointF( 9.5, 5.25 ) + offset
+        painter->setBrush(painter->pen().color());
+	painter->drawPolygon(QVector<QPointF> {
+            QPointF(0, 2.5),
+            QPointF(3, -1.5),
+            QPointF(-3, -1.5)
         });
     }
 };

@@ -260,17 +260,27 @@ void Button::paint(QPainter *painter, const QRectF &repaintRegion)
 
     // Background
     const QColor bgColor = backgroundColor();
+
     painter->setRenderHints(QPainter::Antialiasing, m_isRightmost || m_isLeftmost);
     painter->setPen(Qt::NoPen);
     painter->setBrush(bgColor);
-    const qreal radius = deco->cornerRadius();
+    //const qreal radius = deco->cornerRadius();
     const QRectF snappedGeometry = KDecoration3::snapToPixelGrid(geometry(), deco->window()->scale());
 
-    //const qreal offset = (static_cast<int>(m_isRightmost) - static_cast<int>(m_isLeftmost));   // -0.5 for left; +0.5 for right
+    if (qobject_cast<TextButton*>(this)) {
+        // Draw smaller rounded rectangle for menu buttons
+        const qreal radius = 3;
+        const qreal shrinkFactorHeight = 0.10;
+        const qreal shrinkFactorWidth = 0.05;
+        QRectF smallerRect = snappedGeometry.adjusted(snappedGeometry.width() * shrinkFactorWidth, snappedGeometry.height() * shrinkFactorHeight, -snappedGeometry.width() * shrinkFactorWidth, -snappedGeometry.height() * shrinkFactorHeight);
+        painter->drawRoundedRect(smallerRect, radius - Material::cornerRadiusAdjustment, radius - Material::cornerRadiusAdjustment);
 
-    // Smart way to draw a rectangle with the right rounded/squared corner
-    painter->drawPath(deco->getRoundedPath(snappedGeometry, radius-Material::cornerRadiusAdjustment, m_isLeftmost && deco->leftBorderVisible(), m_isRightmost && deco->rightBorderVisible(), false, false));
-    //painter->fillRect(geometry().toAlignedRect(), bgColor); //.adjusted(-1, -1, 1, 1)
+    } else {
+        // Draw circle for regular window buttons
+        const QPointF center = snappedGeometry.center();
+        const qreal circleRadius = qMin(snappedGeometry.width(), snappedGeometry.height()) / 2.5;
+        painter->drawEllipse(center, circleRadius, circleRadius);
+    }
 
     // Foreground.
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -410,6 +420,7 @@ QColor Button::backgroundColor() const
     }
 
     //--- CloseButton
+    /*
     if (type() == KDecoration3::DecorationButtonType::Close) {
         auto *decoratedClient = deco->window();
         const QColor hoveredColor = decoratedClient->color(
@@ -430,24 +441,27 @@ QColor Button::backgroundColor() const
         if (isHovered()) {
             return KColorUtils::mix(normalColor, hoveredColor, m_transitionValue);
         }
-    }
+    }*/
 
     //--- Checked
     if (isChecked() && type() != KDecoration3::DecorationButtonType::Maximize) {
-        const QColor normalColor = deco->titleBarForegroundColor();
-
+        //const QColor normalColor = deco->titleBarForegroundColor();
+        const QColor normalColor = KColorUtils::mix(
+            deco->titleBarBackgroundColor(),
+            deco->titleBarForegroundColor(),
+            0.2);
         if (isPressed()) {
             const QColor pressedColor = KColorUtils::mix(
                 deco->titleBarBackgroundColor(),
                 deco->titleBarForegroundColor(),
-                0.7);
+                0.2);
             return KColorUtils::mix(normalColor, pressedColor, m_transitionValue);
         }
         if (isHovered()) {
             const QColor hoveredColor = KColorUtils::mix(
                 deco->titleBarBackgroundColor(),
                 deco->titleBarForegroundColor(),
-                0.8);
+                0.3);
             return KColorUtils::mix(normalColor, hoveredColor, m_transitionValue);
         }
         return normalColor;
@@ -484,14 +498,14 @@ QColor Button::foregroundColor() const
     //--- Checked
     if (isChecked() && type() != KDecoration3::DecorationButtonType::Maximize) {
         const QColor activeColor = KColorUtils::mix(
-            deco->titleBarOpaqueBackgroundColor(),
+            deco->titleBarBackgroundColor(),
             deco->titleBarForegroundColor(),
-            0.2);
+            0.8);
 
         if (isPressed() || isHovered()) {
             return KColorUtils::mix(
                 activeColor,
-                deco->titleBarOpaqueBackgroundColor(),
+                deco->titleBarForegroundColor(),
                 m_transitionValue);
         }
         return activeColor;

@@ -41,29 +41,9 @@ public:
     }
     static void paintIcon(Button *button, QPainter *painter, const QRectF &iconRect, const qreal) {
         Q_UNUSED(iconRect)
-        const QRectF innerRect(-5, -5, 10, 10);
-        button->setPenWidth(painter, 1.5);
-        if (button->isChecked()) {
-            const int offset = 2;
-            // Outline of first square, "on top", aligned bottom left.
-            painter->drawPolygon(QVector<QPointF> {
-                innerRect.bottomLeft(),
-                innerRect.topLeft() + QPointF(0, offset),
-                innerRect.topRight() + QPointF(-offset, offset),
-                innerRect.bottomRight() + QPointF(-offset, 0)
-            });
-
-            // Partially occluded square, "below" first square, aligned top right.
-            painter->drawPolyline(QVector<QPointF> {
-                innerRect.topLeft() + QPointF(offset, offset),
-                innerRect.topLeft() + QPointF(offset, 0),
-                innerRect.topRight(),
-                innerRect.bottomRight() + QPointF(0, -offset),
-                innerRect.bottomRight() + QPointF(-offset, -offset)
-            });
-        } else {
-            painter->drawRect(innerRect);
-        }
+        const QRectF innerRect(-3, -2.5, 6, 6.5);
+        button->setPenWidth(painter, 2.5);
+        painter->drawRect(innerRect);
     }
 };
 

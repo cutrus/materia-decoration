@@ -39,13 +39,13 @@ public:
     }
     static void paintIcon(Button *button, QPainter *painter, const QRectF &iconRect, const qreal) {
         Q_UNUSED(iconRect)
-        button->setPenWidth(painter, 1.5);
+        button->setPenWidth(painter, 2.5);
 
         const qreal spacing = 4.0;
         for (int i = -1; i <= 1; ++i) {
             const qreal y = i * spacing;
-            const QPointF left { -5.5, y };
-            const QPointF right { 5.5, y };
+            const QPointF left { -5, y };
+            const QPointF right { 5, y };
 
             painter->drawLine(left, right);
         }

@@ -42,15 +42,11 @@ public:
     static void paintIcon(Button *button, QPainter *painter, const QRectF &iconRect, const qreal) {
         Q_UNUSED(iconRect)
         //painter->setRenderHints(QPainter::Antialiasing, true);
-        button->setPenWidth(painter, 1.25);
+        button->setPenWidth(painter, 2.25);
 
-        const int radius = 6;
-        painter->drawPolygon( QVector<QPointF> {
-            QPointF(-radius, 0),
-            QPointF(0, -radius),
-            QPointF(radius, 0),
-            QPointF(0, radius)
-        });
+        const int radius = 3;
+        painter->setBrush(painter->pen().color());
+        painter->drawEllipse(QPointF(0, 0), radius, radius);
     }
 };
 

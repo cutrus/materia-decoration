@@ -45,24 +45,24 @@ public:
         const QPointF offset(-5, -5);
 
         if (button->isChecked()) {
-            button->setPenWidth(painter, 1.25);
+            button->setPenWidth(painter, 2);
             painter->drawLine( 
                 QPointF( 0, 2 ) + offset,
                 QPointF( 10, 2 ) + offset
             );
-            button->setPenWidth(painter, 1.25);
+            button->setPenWidth(painter, 2);
             painter->drawPolyline(  QVector<QPointF> {
                 QPointF( 0.5, 5.25 ) + offset,
                 QPointF( 5.0, 9.75 ) + offset,
                 QPointF( 9.5, 5.25 ) + offset
             });
         } else {
-            button->setPenWidth(painter, 1.25);
+            button->setPenWidth(painter, 2);
             painter->drawLine( 
                 QPointF( 0, 2 ) + offset,
                 QPointF( 10, 2 ) + offset
             );
-            button->setPenWidth(painter, 1.25);
+            button->setPenWidth(painter, 2);
             painter->drawPolyline( QVector<QPointF> {
                 QPointF( 0.5, 9.75 ) + offset,
                 QPointF( 5.0, 5.25 ) + offset,

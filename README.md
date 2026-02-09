@@ -1,8 +1,8 @@
 ![image](data/LIM.png)
 
-# material-decoration
+# materia-decoration
 
-Material-ish window decoration theme for KWin
+Materia-ish window decoration theme for KWin based on [guiodic's material-decoration fork](https://github.com/guiodic/material-decoration). I’ve modified everything to closely match the Materia KDE theme. Below is the original README.
 
 ### Locally Integrated Menu & Search
 

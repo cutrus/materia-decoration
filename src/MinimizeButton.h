@@ -43,8 +43,8 @@ public:
         //Q_UNUSED(button)
         Q_UNUSED(iconRect)
         
-        button->setPenWidth(painter, 1.75);
-        painter->drawLine(QPointF(-5, 0), QPointF(5, 0));
+        button->setPenWidth(painter, 2.5);
+        painter->drawLine(QPointF(-4, 3.5), QPointF(4, 3.5));
     }
 };
 
